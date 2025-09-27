@@ -9,8 +9,11 @@ microservices/
 ├── core_microservice/          # NestJS API Gateway & Business Logic
 │   ├── src/
 │   │   ├── auth/               # Authentication module (empty stubs)
+│   │   ├── users/              # Users module (current user only)
+│   │   ├── profiles/           # Profiles module (current user only)
 │   │   ├── database/           # Database entities and configuration
-│   │   ├── guards/             # Authentication guards
+│   │   ├── guards/             # JWT authentication guard
+│   │   ├── decorators/         # CurrentUser decorator
 │   │   └── main.ts             # Application entry point
 │   ├── package.json
 │   └── tsconfig.json
@@ -33,10 +36,22 @@ microservices/
 
 ### Features (Empty Stubs):
 - Authentication module with HTTP communication to Auth service
+- Users module with current user retrieval
+- Profiles module with current user profile retrieval
 - Database entities (User, Account, Profile, ProfileFollow)
-- JWT authentication guard
+- JWT authentication guard with request.user population
+- CurrentUser decorator for extracting user data
 - Swagger documentation setup
-- Basic CRUD operations structure
+
+### API Endpoints:
+- `POST /auth/signup` - User registration
+- `POST /auth/login` - User login
+- `POST /auth/refresh` - Token refresh
+- `GET /auth/login/:provider` - OAuth login initiation
+- `GET /auth/:provider/callback` - OAuth callback
+- `POST /auth/logout` - User logout
+- `GET /users/current_user` - Get current user
+- `GET /profiles/me` - Get current user profile
 
 ### Database Entities:
 - `User` - Base user entity
@@ -57,8 +72,10 @@ microservices/
 - Redis token storage
 - Session management
 - Token refresh mechanism
+- User registration handling
 
 ### API Endpoints:
+- `POST /internal/auth/register` - User registration
 - `POST /internal/auth/login` - User login
 - `POST /internal/auth/validate` - Token validation
 - `POST /internal/auth/refresh` - Token refresh
@@ -86,5 +103,7 @@ npm run start:dev
 
 - All methods throw "Method not implemented" errors
 - Database entities are fully defined with relationships
-- TypeScript configuration is complete
+- TypeScript configuration is complete with ESLint for linting and formatting
 - Package.json files include all necessary dependencies
+- JWT Guard must populate request.user for CurrentUser decorator
+- Only current user retrieval methods are implemented (no CRUD operations)
